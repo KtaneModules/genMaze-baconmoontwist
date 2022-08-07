@@ -17,50 +17,50 @@
                 <span class="page-header-section-title">Generated Maze</span>
             </div>
             <div class="page-content">
-                <img src="img/Component/genMaze.svg" class="diagram">
+                <img src="img/Component/Generated Maze.svg" class="diagram">
                 <h2>On the Subject of Generated Maze</h2>
                 <p class="flavour-text">I'm not sure this is (an) ideal...</p>
 
                 <p>This module consists of a 5x5 maze with 40 toggleable interior walls, four direction buttons, a submit button and a colored player shape.</p>
-              <p>To solve the module the defuser must reconstruct the maze and move to the goal square. Moving into a wall, moving off the maze or submitting an incorrect configuration will cause a strike.</p>
-			  <p>For each internal wall, calculate its value by adding the values of the adjacent squares, whose value is found by adding the column variable to the row number, with A1 being top left.</p>
-			   <p>The goal row is congruent to the number of totally isolated cells (cells which have zero legal moves) modulo 5, plus one. The goal column is congruent to the number of filled walls in the final maze modulo 5, plus one (with A being column 1, B being column 2, and so on).</p>
-			  
-			   <h4>Column Variables</h4>
-			   <table style="border:none">
-			   <tr>
-			   <td colspan=3>A</td>
-			   <td colspan=3>B</td>
-			   <td colspan=3>C</td>
-			   <td colspan=3>D</td>
-			   <td colspan=3>E</td>
-			   </tr>
-			   <tr>
-			   <td colspan=3>No. of batteries</td>
-			   <td>1</td>
-			   <td>2</td>
-			   <td>3</td>
+              <p>To solve the module the defuser must reconstruct the maze and move to the goal square. Moving into a wall, attempting to move off the maze or submitting an incorrect configuration will cause a strike.</p>
+              <p>For each internal wall, calculate its value by adding the values of the adjacent squares, whose value is found by adding the column variable to the row number, with A1 being top left.</p>
+               <p>The goal row is congruent to the number of filled walls in the final maze modulo 5, plus one. The goal column is congruent to the number of totally isolated cells (cells which have zero legal moves) modulo 5, plus one (with A being column 1, B being column 2, and so on).</p>
+              
+               <h4>Column Variables</h4>
+               <table style="border:none">
+               <tr>
+               <td>A</td>
+               <td colspan=3>B</td>
+               <td>C</td>
+               <td colspan=3>D</td>
+               <td>E</td>
+               </tr>
+               <tr>
+               <td>No. of batteries</td>
+               <td>1</td>
+               <td>2</td>
+               <td>3</td>
 
-			   <td colspan=3>No. of port plates</td>
-			   <td>1</td>
-			   <td>2</td>
-			   <td>3</td>
-			   
-			   <td colspan=3>No. of indicators</td>
-			   </tr>
-			   <tr>
-			   <td colspan=3 style="border:none"></td>
-			   <td bgcolor="red">R</td>
-			   <td bgcolor="green">G</td>
-			   <td bgcolor="blue">B</td>
-			   <td colspan=3 style="border:none"></td>
-			   <td>●</td>
-			   <td>🞦</td>
-			   <td>■</td>
-			   <td colspan=3 style="border:none"></td>
-			   </tr>
-			   </table>
-			  
+               <td>No. of port plates</td>
+               <td>1</td>
+               <td>2</td>
+               <td>3</td>
+               
+               <td>No. of indicators</td>
+               </tr>
+               <tr>
+               <td style="border:none"></td>
+               <td style="background-color:green">G</td>
+               <td style="background-color:blue">B</td>
+               <td style="background-color:red">R</td>
+               <td style="border:none"></td>
+               <td>●</td>
+               <td>🞦</td>
+               <td>■</td>
+               <td style="border:none"></td>
+               </tr>
+               </table>
+              <p>If the wall's value is congruent to 0 modulo 3 it should not be filled in.</p>
             </div>
             <div class="page-footer relative-footer">Page 1 of 1</div>
         </div>

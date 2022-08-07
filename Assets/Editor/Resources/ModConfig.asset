@@ -14,7 +14,13 @@ MonoBehaviour:
   id: genMaze
   title: Generated Maze
   author: ulv
-  description: 
+  description: 'Construct a maze using edgework and information on the module, then
+    traverse it.
+
+
+    ModID: genMaze
+
+    Manual available on ktane.timwi.de '
   version: 1.0
   outputFolder: build
-  previewImage: {fileID: 0}
+  previewImage: {fileID: 2800000, guid: 5024df1582338fc40981d35eecb8dca1, type: 3}

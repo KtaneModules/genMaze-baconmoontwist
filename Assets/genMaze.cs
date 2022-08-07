@@ -61,7 +61,6 @@ public class genMaze : MonoBehaviour
         InitializeWalls();
         StartEnd();
         SetShape();
-        testing();
 
     }
 
@@ -76,7 +75,7 @@ public class genMaze : MonoBehaviour
         goalPos[0] = Mod(NumStuck(), 5);
         goalPos[1] = Mod(goalPos[1],5);
         
-        Debug.LogFormat("Goal position: {0},{1}", goalPos[0], goalPos[1]);
+        Debug.LogFormat("[Generated Maze #{2}] Goal position: {0},{1}", goalPos[0], goalPos[1],ModuleId);
         if (IsStuck(goalPos[0], goalPos[1]) == 1)
         {
             xPos = goalPos[0];
@@ -91,7 +90,7 @@ public class genMaze : MonoBehaviour
                 MoveStart();
             }
         }
-        Debug.LogFormat("Starting position: {0},{1}", xPos, yPos);
+        Debug.LogFormat("[Generated Maze #{2}] Starting position: {0},{1}", xPos, yPos,ModuleId);
 
     }
 
@@ -128,7 +127,7 @@ public class genMaze : MonoBehaviour
         vars[2] = Bomb.GetPortPlateCount();
         vars[3] = Rnd.Range(0, 3);
         vars[4] = Bomb.GetIndicators().Count();
-        Debug.LogFormat("vars: {0},{1},{2},{3},{4}",vars[0], vars[1], vars[2], vars[3], vars[4]);
+        Debug.LogFormat("[Generated Maze #{5}] vars: {0},{1},{2},{3},{4}", vars[0], vars[1], vars[2], vars[3], vars[4],ModuleId);
         //vertical walls
         for (int i = 0; i < 5; i++)
         {
@@ -147,7 +146,7 @@ public class genMaze : MonoBehaviour
         }
         foreach (int i in wallsSol)
         {
-            if (Mod(i,3)==0)
+            if (Mod(i,3)!=0)
             {
                 goalPos[1] += 1;
             }
@@ -155,6 +154,7 @@ public class genMaze : MonoBehaviour
     }
 
     //lrdu
+    //in retrospect i dont know why this takes input
     int[] LegalMoves(int x, int y)
     {
         int[] i = { 0, 0, 0, 0 };
@@ -261,12 +261,6 @@ public class genMaze : MonoBehaviour
         else return 0;
     }
 
-    
-    void testing()
-    {
-        var result = string.Join(",", wallsSol.Select(x => x.ToString()).ToArray());
-        Debug.LogFormat(result);
-    }
 
     void PressLeft()
     {
@@ -281,8 +275,8 @@ public class genMaze : MonoBehaviour
         }
         else
         {
+            Debug.LogFormat("[Generated Maze #{2}] Illegal move left at {0},{1}", xPos, yPos,ModuleId);
             GetComponent<KMBombModule>().HandleStrike();
-            Debug.LogFormat("Illegal move left at {0},{1}",xPos,yPos);
         }
     }
     void PressRight()
@@ -298,10 +292,10 @@ public class genMaze : MonoBehaviour
         }
         else
         {
+            Debug.LogFormat("[Generated Maze #{2}] Illegal move right at {0},{1}", xPos, yPos,ModuleId);
             right.AddInteractionPunch();
             GetComponent<KMBombModule>().HandleStrike();
             Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, right.transform);
-            Debug.LogFormat("Illegal move right at {0},{1}", xPos, yPos);
         }
     }
     void PressDown()
@@ -316,10 +310,10 @@ public class genMaze : MonoBehaviour
             Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, down.transform);
         }
         else{
+            Debug.LogFormat("[Generated Maze #{2}] Illegal move down at {0},{1}", xPos, yPos,ModuleId);
             down.AddInteractionPunch();
             GetComponent<KMBombModule>().HandleStrike();
             Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, down.transform);
-            Debug.LogFormat("Illegal move down at {0},{1}", xPos, yPos);
         }
     }
     void PressUp()
@@ -334,10 +328,10 @@ public class genMaze : MonoBehaviour
             Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, up.transform);
         }
         else{
+            Debug.LogFormat("[Generated Maze #{2}] Illegal move up at {0},{1}", xPos, yPos,ModuleId);
             up.AddInteractionPunch();
             GetComponent<KMBombModule>().HandleStrike();
             Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, up.transform);
-            Debug.LogFormat("Illegal move up at {0},{1}", xPos, yPos);
         }
     }
     void PressSub()
@@ -348,17 +342,18 @@ public class genMaze : MonoBehaviour
             Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, sub.transform);
         }
         else if ((xPos != goalPos[0]) || (yPos != goalPos[1])) {
+            Debug.LogFormat("[Generated Maze #{4}] Current position, {0},{1}, does not match goal position {2},{3}", xPos, yPos, goalPos[0], goalPos[1],ModuleId);
             sub.AddInteractionPunch();
             GetComponent<KMBombModule>().HandleStrike();
             Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, sub.transform);
-            Debug.LogFormat("Current position, {0},{1}, does not match goal position {2},{3}", xPos, yPos, goalPos[0], goalPos[1]);
+
         }
         else if (!WallsTrue())
         {
+            Debug.LogFormat("[Generated Maze #{0}] Not all walls correct",ModuleId);
             sub.AddInteractionPunch();
             GetComponent<KMBombModule>().HandleStrike();
             Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, sub.transform);
-            Debug.LogFormat("Not all walls correct");
         }
     }
     //changes the color and value of the maze walls when you press them
