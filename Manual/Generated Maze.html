@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1">
+    <title>Generated Maze — Keep Talking and Nobody Explodes Module</title>
+    <link rel="stylesheet" type="text/css" href="css/font.css">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="js/ktane-utils.js"></script>
+</head>
+<body>
+    <div class="section">
+        <div class="page page-bg-01">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">Generated Maze</span>
+            </div>
+            <div class="page-content">
+                <img src="img/Component/genMaze.svg" class="diagram">
+                <h2>On the Subject of Generated Maze</h2>
+                <p class="flavour-text">I'm not sure this is (an) ideal...</p>
+
+                <p>This module consists of a 5x5 maze with 40 toggleable interior walls, four direction buttons, a submit button and a colored player shape.</p>
+              <p>To solve the module the defuser must reconstruct the maze and move to the goal square. Moving into a wall, moving off the maze or submitting an incorrect configuration will cause a strike.</p>
+			  <p>For each internal wall, calculate its value by adding the values of the adjacent squares, whose value is found by adding the column variable to the row number, with A1 being top left.</p>
+			   <p>The goal row is congruent to the number of totally isolated cells (cells which have zero legal moves) modulo 5, plus one. The goal column is congruent to the number of filled walls in the final maze modulo 5, plus one (with A being column 1, B being column 2, and so on).</p>
+			  
+			   <h4>Column Variables</h4>
+			   <table style="border:none">
+			   <tr>
+			   <td colspan=3>A</td>
+			   <td colspan=3>B</td>
+			   <td colspan=3>C</td>
+			   <td colspan=3>D</td>
+			   <td colspan=3>E</td>
+			   </tr>
+			   <tr>
+			   <td colspan=3>No. of batteries</td>
+			   <td>1</td>
+			   <td>2</td>
+			   <td>3</td>
+
+			   <td colspan=3>No. of port plates</td>
+			   <td>1</td>
+			   <td>2</td>
+			   <td>3</td>
+			   
+			   <td colspan=3>No. of indicators</td>
+			   </tr>
+			   <tr>
+			   <td colspan=3 style="border:none"></td>
+			   <td bgcolor="red">R</td>
+			   <td bgcolor="green">G</td>
+			   <td bgcolor="blue">B</td>
+			   <td colspan=3 style="border:none"></td>
+			   <td>●</td>
+			   <td>🞦</td>
+			   <td>■</td>
+			   <td colspan=3 style="border:none"></td>
+			   </tr>
+			   </table>
+			  
+            </div>
+            <div class="page-footer relative-footer">Page 1 of 1</div>
+        </div>
+    </div>
+</body>
+</html>
