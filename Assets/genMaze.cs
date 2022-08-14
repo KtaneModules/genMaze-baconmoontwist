@@ -34,7 +34,7 @@ public class genMaze : MonoBehaviour
     private int yPos = 0;
     private int[] vars = new int[] { 0, 0, 0, 0, 0 };
     private int[] goalPos = new int[] { 0, 0 };
-    private int[] walls = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    private int[] walls = new int[] { 1,1,1,1,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
     private int[] wallsSol = new int[] { 2,2,2,2,4,4,4,4,6,6,6,6,8,8,8,8,10,10,10,10,3,3,3,3,3,5,5,5,5,5,7,7,7,7,7,9,9,9,9,9};
 
     void Awake()
@@ -127,13 +127,13 @@ public class genMaze : MonoBehaviour
         vars[2] = Bomb.GetPortPlateCount();
         vars[3] = Rnd.Range(0, 3);
         vars[4] = Bomb.GetIndicators().Count();
-        Debug.LogFormat("[Generated Maze #{5}] vars: {0},{1},{2},{3},{4}", vars[0], vars[1], vars[2], vars[3], vars[4],ModuleId);
+        Debug.LogFormat("[Generated Maze #{5}] vars: {0},{1},{2},{3},{4}", vars[0], vars[1], vars[2], vars[3], vars[4], ModuleId);
         //vertical walls
         for (int i = 0; i < 5; i++)
         {
             for (int j = 0; j < 4; j++)
             {
-                wallsSol[i*4+j] += Mod(vars[j] + vars[j + 1], 3);
+                wallsSol[i * 4 + j] += Mod(vars[j] + vars[j + 1], 3);
             }
         }
         //down walls
@@ -141,16 +141,34 @@ public class genMaze : MonoBehaviour
         {
             for (int j = 0; j < 5; j++)
             {
-                wallsSol[20+i * 5 + j] += Mod(2*vars[j], 3);
+                wallsSol[20 + i * 5 + j] += Mod(2 * vars[j], 3);
             }
         }
         foreach (int i in wallsSol)
         {
-            if (Mod(i,3)!=0)
+            if (Mod(i, 3) != 0)
             {
                 goalPos[1] += 1;
             }
         }
+        for (int i = 0; i<40;i++)
+        {
+            wallsSol[i] = Mod(wallsSol[i], 3);
+            if (wallsSol[i]==2)
+            {
+                wallsSol[i] -= 1;
+            }
+        }
+        Debug.LogFormat("[Generated Maze #{0}] Walls: 0 means not present (white) and 1 means present (black)", ModuleId);
+        Debug.LogFormat("[Generated Maze #{4}] {0} {1} {2} {3}  ", wallsSol[0], wallsSol[1], wallsSol[2], wallsSol[3], ModuleId);
+        Debug.LogFormat("[Generated Maze #{5}] {0} {1} {2} {3} {4}", wallsSol[20], wallsSol[21], wallsSol[22], wallsSol[23], wallsSol[24], ModuleId);
+        Debug.LogFormat("[Generated Maze #{4}] {0} {1} {2} {3}  ", wallsSol[4], wallsSol[5], wallsSol[6], wallsSol[7], ModuleId);
+        Debug.LogFormat("[Generated Maze #{5}] {0} {1} {2} {3} {4} ", wallsSol[25], wallsSol[26], wallsSol[27], wallsSol[28], wallsSol[29], ModuleId);
+        Debug.LogFormat("[Generated Maze #{4}] {0} {1} {2} {3}  ", wallsSol[8], wallsSol[9], wallsSol[10], wallsSol[11], ModuleId);
+        Debug.LogFormat("[Generated Maze #{5}] {0} {1} {2} {3} {4} ", wallsSol[30], wallsSol[31], wallsSol[32], wallsSol[33], wallsSol[34], ModuleId);
+        Debug.LogFormat("[Generated Maze #{4}] {0} {1} {2} {3}  ", wallsSol[12], wallsSol[13], wallsSol[14], wallsSol[15], ModuleId);
+        Debug.LogFormat("[Generated Maze #{5}] {0} {1} {2} {3} {4} ", wallsSol[35], wallsSol[36], wallsSol[37], wallsSol[38], wallsSol[39], ModuleId);
+        Debug.LogFormat("[Generated Maze #{4}] {0} {1} {2} {3}  ", wallsSol[16], wallsSol[17], wallsSol[18], wallsSol[19], ModuleId);
     }
 
     //lrdu
@@ -242,7 +260,7 @@ public class genMaze : MonoBehaviour
             {
                 wallsSol[i] = 1;
             }
-            if (walls[i] == wallsSol[i])
+            if (walls[i] != wallsSol[i])
                 { return false; }
         }
         return true;
@@ -363,12 +381,12 @@ public class genMaze : MonoBehaviour
         {
             if ((wallsDown[i] == button) && (walls[i] == 0))
             {
-                button.GetComponent<Renderer>().material.color = Color.white;
+                button.GetComponent<Renderer>().material.color = Color.black;
                 walls[i] = 1;
             }
             else if ((wallsDown[i] == button) && (walls[i] == 1))
             {
-                button.GetComponent<Renderer>().material.color = Color.black;
+                button.GetComponent<Renderer>().material.color = Color.white;
                 walls[i] = 0;
             }
         }
