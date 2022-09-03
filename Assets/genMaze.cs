@@ -346,12 +346,18 @@ public class genMaze : MonoBehaviour
     }
 
 #pragma warning disable 414
-    private readonly string TwitchHelpMessage = @"!{0} toggle a1d c3r [Toggle the down wall of A1, then the right wall of C3.] | !{0} move urdl [Move up, right, down, left.]";
+    private readonly string TwitchHelpMessage = @"!{0} toggle a1d c3r [Toggle the down wall of A1, then the right wall of C3.] | !{0} move urdl [Move up, right, down, left.] | !{0} submit [Submit.]";
 #pragma warning restore 414
 
     IEnumerator ProcessTwitchCommand(string command)
     {
         var parameters = command.ToLowerInvariant().Split(' ');
+        if (parameters.Length == 1 && Regex.Match(parameters[0], @"^\s*submit\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant).Success)
+        {
+            yield return null;
+            sub.OnInteract();
+            yield break;
+        }
         if (Regex.Match(parameters[0], @"^\s*move\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant).Success)
         {
             if (parameters.Length == 1)
