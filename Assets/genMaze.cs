@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using System.Reflection;
 using KModkit;
 using Rnd = UnityEngine.Random;
 
@@ -26,6 +27,7 @@ public class genMaze : MonoBehaviour
     public GameObject[] plush;
     public GameObject cylinder;
     public GameObject plus;
+    public KMRuleSeedable RuleSeedable;
     //reading order vertical, then reading order horizontal (lol)
     public KMSelectable[] wallsDown;
 
@@ -56,6 +58,7 @@ public class genMaze : MonoBehaviour
         InitializeWalls();
         StartEnd();
         SetShape();
+        MissionControl();
     }
 
     int Mod(int x, int m)
@@ -103,6 +106,27 @@ public class genMaze : MonoBehaviour
 
     }
 
+    int ab(int x)
+    {
+        return Mod(x + 1, 2);
+    }
+
+    //im an idiot for naming my mission pack how123 but it is what it is
+    void MissionControl()
+    {
+        if (GetMissionID() == "mod_how123_truleseeded")
+        {
+            if(RuleSeedable.GetRNG().Seed!=1)
+            {
+
+                GetComponent<KMBombModule>().HandleStrike();
+                GetComponent<KMBombModule>().HandlePass();
+            }
+           
+        }
+    }
+
+
     //sets up wallsSol and colors the cube
     void CalculateLegal()
     {
@@ -129,16 +153,33 @@ public class genMaze : MonoBehaviour
             if (wallsSol[i] == 2)
                 wallsSol[i] -= 1;
         }
-        Debug.LogFormat("[Generated Maze #{0}] Walls: 0 means not present (white) and 1 means present (black)", ModuleId);
-        Debug.LogFormat("[Generated Maze #{4}] {0} {1} {2} {3}  ", wallsSol[0], wallsSol[1], wallsSol[2], wallsSol[3], ModuleId);
-        Debug.LogFormat("[Generated Maze #{5}] {0} {1} {2} {3} {4}", wallsSol[20], wallsSol[21], wallsSol[22], wallsSol[23], wallsSol[24], ModuleId);
-        Debug.LogFormat("[Generated Maze #{4}] {0} {1} {2} {3}  ", wallsSol[4], wallsSol[5], wallsSol[6], wallsSol[7], ModuleId);
-        Debug.LogFormat("[Generated Maze #{5}] {0} {1} {2} {3} {4} ", wallsSol[25], wallsSol[26], wallsSol[27], wallsSol[28], wallsSol[29], ModuleId);
-        Debug.LogFormat("[Generated Maze #{4}] {0} {1} {2} {3}  ", wallsSol[8], wallsSol[9], wallsSol[10], wallsSol[11], ModuleId);
-        Debug.LogFormat("[Generated Maze #{5}] {0} {1} {2} {3} {4} ", wallsSol[30], wallsSol[31], wallsSol[32], wallsSol[33], wallsSol[34], ModuleId);
-        Debug.LogFormat("[Generated Maze #{4}] {0} {1} {2} {3}  ", wallsSol[12], wallsSol[13], wallsSol[14], wallsSol[15], ModuleId);
-        Debug.LogFormat("[Generated Maze #{5}] {0} {1} {2} {3} {4} ", wallsSol[35], wallsSol[36], wallsSol[37], wallsSol[38], wallsSol[39], ModuleId);
-        Debug.LogFormat("[Generated Maze #{4}] {0} {1} {2} {3}  ", wallsSol[16], wallsSol[17], wallsSol[18], wallsSol[19], ModuleId);
+        Debug.LogFormat("[Generated Maze #{0}] Walls: 1 means not present (white) and 0 means present (black)", ModuleId);
+        Debug.LogFormat("[Generated Maze #{4}]) {0} {1} {2} {3}  ", ab(wallsSol[0]), ab(wallsSol[1]), ab(wallsSol[2]), ab(wallsSol[3]), ModuleId);
+        Debug.LogFormat("[Generated Maze #{5}]) {0} {1} {2} {3} {4}", ab(wallsSol[20]), ab(wallsSol[21]), ab(wallsSol[22]), ab(wallsSol[23]), ab(wallsSol[24]), ModuleId);
+        Debug.LogFormat("[Generated Maze #{4}]) {0} {1} {2} {3}  ", ab(wallsSol[4]), ab(wallsSol[5]), ab(wallsSol[6]), ab(wallsSol[7]), ModuleId);
+        Debug.LogFormat("[Generated Maze #{5}]) {0} {1} {2} {3} {4} ", ab(wallsSol[25]), ab(wallsSol[26]), ab(wallsSol[27]), ab(wallsSol[28]), ab(wallsSol[29]), ModuleId);
+        Debug.LogFormat("[Generated Maze #{4}]) {0} {1} {2} {3}  ", ab(wallsSol[8]), ab(wallsSol[9]), ab(wallsSol[10]), ab(wallsSol[11]), ModuleId);
+        Debug.LogFormat("[Generated Maze #{5}]) {0} {1} {2} {3} {4} ", ab(wallsSol[30]), ab(wallsSol[31]), ab(wallsSol[32]), ab(wallsSol[33]), ab(wallsSol[34]), ModuleId);
+        Debug.LogFormat("[Generated Maze #{4}]) {0} {1} {2} {3}  ", ab(wallsSol[12]), ab(wallsSol[13]), ab(wallsSol[14]), ab(wallsSol[15]), ModuleId);
+        Debug.LogFormat("[Generated Maze #{5}]) {0} {1} {2} {3} {4} ", ab(wallsSol[35]), ab(wallsSol[36]), ab(wallsSol[37]), ab(wallsSol[38]), ab(wallsSol[39]), ModuleId);
+        Debug.LogFormat("[Generated Maze #{4}]) {0} {1} {2} {3}  ", ab(wallsSol[16]), ab(wallsSol[17]), ab(wallsSol[18]), ab(wallsSol[19]), ModuleId);
+    }
+
+    // Gets the mission ID - Thanks to S. (and espik because thats who i copied it off)
+    private string GetMissionID()
+    {
+        try
+        {
+            Component gameplayState = GameObject.Find("GameplayState(Clone)").GetComponent("GameplayState");
+            Type type = gameplayState.GetType();
+            FieldInfo fieldMission = type.GetField("MissionToLoad", BindingFlags.Public | BindingFlags.Static);
+            return fieldMission.GetValue(gameplayState).ToString();
+        }
+
+        catch (NullReferenceException)
+        {
+            return "undefined";
+        }
     }
 
     //lrdu
@@ -157,6 +198,7 @@ public class genMaze : MonoBehaviour
         return i;
     }
 
+    //number of totally enclosed squares
     int NumStuck()
     {
         int i = 0;
@@ -167,6 +209,7 @@ public class genMaze : MonoBehaviour
         return i;
     }
 
+    //sets the shape and color of the player through some super jank
     void SetShape()
     {
         cube.transform.localPosition += new Vector3(xPos * 0.017f, 0, yPos * -0.017f);
@@ -229,6 +272,8 @@ public class genMaze : MonoBehaviour
         }
         else return 0;
     }
+
+    //handles the buttons
 
     void PressLeft()
     {
@@ -345,6 +390,7 @@ public class genMaze : MonoBehaviour
         }
     }
 
+    //the twitch play, thanks to quinn
 #pragma warning disable 414
     private readonly string TwitchHelpMessage = @"!{0} toggle a1d c3r [Toggle the down wall of A1, then the right wall of C3.] | !{0} move urdl [Move up, right, down, left.] | !{0} submit [Submit.]";
 #pragma warning restore 414

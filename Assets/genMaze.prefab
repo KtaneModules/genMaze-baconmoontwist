@@ -1872,6 +1872,7 @@ GameObject:
   - component: {fileID: 114320565437256262}
   - component: {fileID: 114579338038977806}
   - component: {fileID: 114085729171820016}
+  - component: {fileID: 114489483715660812}
   m_Layer: 0
   m_Name: genMaze
   m_TagString: Untagged
@@ -7126,6 +7127,7 @@ MonoBehaviour:
   - {fileID: 1669781298387480}
   cylinder: {fileID: 1152553980207154}
   plus: {fileID: 1801991209454020}
+  RuleSeedable: {fileID: 114489483715660812}
   wallsDown:
   - {fileID: 114367823146964582}
   - {fileID: 114113235483483586}
@@ -8125,6 +8127,18 @@ MonoBehaviour:
   AllowSelectionWrapY: 0
   ForceSelectionHighlight: 0
   ForceInteractionHighlight: 0
+--- !u!114 &114489483715660812
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1899558821014220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adf69c2de51bd3c43bbd9bc22578ee08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seed: 1
 --- !u!114 &114490449712854176
 MonoBehaviour:
   m_ObjectHideFlags: 1
