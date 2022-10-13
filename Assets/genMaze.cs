@@ -397,23 +397,22 @@ public class genMaze : MonoBehaviour
 
     IEnumerator ProcessTwitchCommand(string command)
     {
-        var parameters = command.ToLowerInvariant().Split(' ');
+        var parameters = command.Trim().ToLowerInvariant().Split(' ');
         if (parameters.Length == 1 && Regex.Match(parameters[0], @"^\s*submit\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant).Success)
         {
             yield return null;
             sub.OnInteract();
             yield break;
         }
-        if (Regex.Match(parameters[0], @"^\s*move\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant).Success)
+        if (Regex.Match(parameters[0], @"^\s*move\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant).Success && parameters.Length != 1)
         {
-            if (parameters.Length == 1)
-                yield break;
+            var s = command.Substring(5);
             List<int> list = new List<int>();
             KMSelectable[] btns = new[] { up, down, left, right };
-            for (int i = 1; i < parameters.Length; i++)
+            for (int i = 0; i < s.Length; i++)
             {
                 string str = "udlr ";
-                int ix = str.IndexOf(parameters[i]);
+                int ix = str.IndexOf(s[i]);
                 if (ix == 4)
                     continue;
                 if (ix == -1)
